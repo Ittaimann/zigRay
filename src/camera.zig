@@ -1,6 +1,6 @@
 const std = @import("std");
 const raylib = @import("externals.zig").raylib;
-const float3 = @import("math.zig");
+pub const math = @import("math.zig");
 
 const raylib_up = raylib.Vector3{ .x = 0.0, .y = 1.0, .z = 0.0 };
 
@@ -16,7 +16,13 @@ pub fn initCameraEmpty() raylib.Camera3D {
     return result;
 }
 
-pub fn initCamera(position: float3.float3, target: float3.float3, fovy: f32, projection: raylib_Camera_projection) raylib.Camera3D {
-    var new_camera = raylib.Camera3D{ .position = raylib.Vector3{ .x = position.x, .y = position.y, .z = position.z }, .target = raylib.Vector3{ .x = target.x, .y = target.y, .z = target.z }, .up = raylib_up, .fovy = fovy, .projection = @enumToInt(projection) };
+pub fn initCamera(position: math.Vector3, target: math.Vector3, fovy: f32, projection: raylib_Camera_projection) raylib.Camera3D {
+    var new_camera = raylib.Camera3D{ .position = position, .target = target, .up = raylib_up, .fovy = fovy, .projection = @enumToInt(projection) };
+    // .position.x = position.x,
+    // .position.y = position.y, .position.z = position.z,
+    // .target.x = target.x, .target.y = target.y, .z = target.z ,
+    // .up.x = raylib_up.x, .up.y = raylib_up.y, .up.z = raylib.z ,
+    // .fovy = fovy, .projection = @enumToInt(projection) };
+
     return new_camera;
 }
