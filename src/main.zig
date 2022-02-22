@@ -10,6 +10,12 @@ pub fn main() anyerror!void {
     const screenHeight = 450;
 
     raylib.InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator: std.mem.Allocator = gpa.allocator();
+    defer {
+        const leaked = gpa.deinit();
+        if (leaked) std.testing.expect(false) catch @panic("MEMORY LEAK DETECTED");
+    }
     defer raylib.CloseWindow();
 
     raylib.SetTargetFPS(60);
@@ -19,7 +25,7 @@ pub fn main() anyerror!void {
     var scene_Camera: raylib.Camera3D = camera.initCamera(position, target, 45.0, camera.raylib_Camera_projection.CAMERA_PERSPECTIVE);
     var cube_Position: raylib.Vector3 = raylib.Vector3{ .x = 0.0, .y = 0.0, .z = 0.0 };
 
-    managers.gameManager.init();
+    managers.gameManager.init(allocator);
     // update game objects
     // update camera
     // drawScene

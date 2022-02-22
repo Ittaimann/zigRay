@@ -3,3 +3,4 @@
 /external
 *.lib
 /Assets
+build.bat
